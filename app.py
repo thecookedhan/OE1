@@ -8,7 +8,7 @@ def index():
   return render_template('index.html')
 
 @app.route('/solve', methods=['POST'])
-def solve()
+def solve():
   data = request.json
   start_time = time.time()
 
