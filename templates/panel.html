@@ -1,0 +1,119 @@
+<div class="p-6 rounded-3xl backdrop-blur-md border border-white/40"
+     style="background: rgba(255, 255, 255, 0.3); box-shadow: 0 8px 32px 0 rgba(243, 170, 240, 0.2);">
+    
+    <h2 class="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-2">
+        <i data-lucide="sparkles" class="w-5 h-5 text-purple-400"></i>
+        Konfiguracja
+    </h2>
+
+    <form id="configForm" class="space-y-5">
+        <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-700">Liczba zmiennych</label>
+            <input type="number" name="numVariables" value="2" min="1"
+                   class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm transition-all focus:border-pink-300 outline-none"
+                   style="background: rgba(255, 255, 255, 0.4)">
+        </div>
+
+        <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-700">Zakres zmiennych</label>
+            <div class="grid grid-cols-2 gap-3">
+                <input type="number" name="rangeFrom" placeholder="Od" value="-10" step="any"
+                       class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-pink-300 outline-none"
+                       style="background: rgba(255, 255, 255, 0.4)">
+                <input type="number" name="rangeTo" placeholder="Do" value="10" step="any"
+                       class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-pink-300 outline-none"
+                       style="background: rgba(255, 255, 255, 0.4)">
+            </div>
+        </div>
+
+        <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-700">Wielkość populacji</label>
+            <input type="number" name="populationSize" value="100" min="2"
+                   class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-pink-300 outline-none"
+                   style="background: rgba(255, 255, 255, 0.4)">
+        </div>
+
+        <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-700">Liczba epok</label>
+            <input type="number" name="numEpochs" value="50" min="1"
+                   class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-pink-300 outline-none"
+                   style="background: rgba(255, 255, 255, 0.4)">
+        </div>
+
+        <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-700">Dokładność (bitowa)</label>
+            <input type="number" name="precision" value="16" min="1" max="64"
+                   class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-pink-300 outline-none"
+                   style="background: rgba(255, 255, 255, 0.4)">
+        </div>
+
+        <div class="h-px bg-gradient-to-r from-transparent via-white/50 to-transparent my-4"></div>
+
+        <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-700">Selekcja</label>
+            <select name="selection" 
+                    class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-blue-300 outline-none appearance-none"
+                    style="background: rgba(255, 255, 255, 0.4)">
+                <option value="best">Najlepszych</option>
+                <option value="roulette">Ruletki</option>
+                <option value="tournament">Turniejowa</option>
+            </select>
+        </div>
+
+        <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-700">Krzyżowanie</label>
+            <select name="crossover" 
+                    class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-blue-300 outline-none appearance-none"
+                    style="background: rgba(255, 255, 255, 0.4)">
+                <option value="single-point">Jednopunktowe</option>
+                <option value="two-point">Dwupunktowe</option>
+                <option value="uniform">Jednorodne</option>
+                <option value="granular">Ziarniste</option>
+            </select>
+        </div>
+
+        <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-700">Mutacja</label>
+            <select name="mutation" 
+                    class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-blue-300 outline-none appearance-none"
+                    style="background: rgba(255, 255, 255, 0.4)">
+                <option value="edge">Brzegowa</option>
+                <option value="single-point">Jednopunktowa</option>
+                <option value="two-point">Dwupunktowa</option>
+            </select>
+        </div>
+
+        <div class="h-px bg-gradient-to-r from-transparent via-white/50 to-transparent my-4"></div>
+
+        <div class="space-y-4">
+            <div class="flex items-center justify-between p-3 rounded-xl" style="background: rgba(255, 255, 255, 0.3)">
+                <span class="text-sm text-gray-700">Strategia elitarna</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" name="eliteStrategy" class="sr-only peer">
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-400"></div>
+                </label>
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl" style="background: rgba(255, 255, 255, 0.3)">
+                <span class="text-sm text-gray-700">Operator inwersji</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" name="inversion" class="sr-only peer">
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-400"></div>
+                </label>
+            </div>
+        </div>
+
+        <button type="submit" id="runBtn"
+                class="w-full mt-6 py-4 rounded-2xl font-semibold text-white flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50"
+                style="background: linear-gradient(135deg, #f3aad1 0%, #f3aaf0 100%); box-shadow: 0 10px 30px rgba(243, 170, 209, 0.4);">
+            <i data-lucide="play" class="w-5 h-5 fill-current"></i>
+            <span id="btnText">Uruchom algorytm</span>
+        </button>
+    </form>
+</div>
+
+<script>
+  // inicjalizacja ikon (biblioteka lucide)
+  lucide.createIcons();
+  
+</script>
