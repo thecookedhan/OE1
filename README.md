@@ -3,7 +3,8 @@ Projekt #1 na Obliczenia Ewolucyjne <33
 
 # Setup
 ```
-git clone
+git clone https://github.com/thecookedhan/OE1.git
+cd OE1
 pip install -r requirements.txt
 ```
 
