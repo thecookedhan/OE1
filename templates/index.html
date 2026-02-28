@@ -3,96 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Implementacja klasycznego algorytmu genetycznego</title>
+    <title>Algorytm Genetyczny | Dashboard</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <style>
-        body { background-color: #8ae470; }
-        .sidebar { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        #chart { width: 100%; height: 500px; }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
-<div class="container-fluid py-4">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="sidebar">
-                <h4>Parametry KAG</h4>
-                <hr>
-                <form id="kag-form">
-                    <div class="mb-3">
-                        <label class="form-label">Liczba zmiennych</label>
-                        <input type="number" class="form-control" name="vars" value="5" min="1">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Wielkość populacji</label>
-                        <input type="number" class="form-control" name="pop_size" value="50">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Liczba epok</label>
-                        <input type="number" class="form-control" name="epochs" value="100">
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Metoda selekcji</label>
-                        <select class="form-select" name="selection">
-                            <option value="best">Najlepszych</option>
-                            <option value="roulette">Koło ruletki</option>
-                            <option value="tournament">Turniejowa</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Krzyżowanie</label>
-                        <select class="form-select" name="crossover">
-                            <option value="one_point">Jednopunktowe</option>
-                            <option value="two_point">Dwupunktowe</option>
-                            <option value="homogeneous">Jednorodne</option>
-                            <option value="grainy">Ziarniste</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Mutacja</label>
-                        <select class="form-select" name="mutation">
-                            <option value="edge">Brzegowa</option>
-                            <option value="one_point">Jednopunktowa</option>
-                            <option value="two_point">Dwupunktowa</option>
-                        </select>
-                    </div>
-
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" name="elitism" id="elitism">
-                        <label class="form-check-label" for="elitism">Strategia elitarna</label>
-                    </div>
-                    <div class="form-check mb-3">
-                        <input class="form-check-input" type="checkbox" name="inversion" id="inversion">
-                        <label class="form-check-label" for="inversion">Operator inwersji</label>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary w-100">Uruchom algorytm</button>
-                </form>
+<div class="max-w-[1600px] mx-auto px-6 py-8">
+    
+    <header class="mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        <h1 class="text-3xl font-semibold text-gray-800 tracking-tight">
+            Implementacja algorytmu genetycznego
+        </h1>
+        
+        <div class="flex items-center gap-4">
+            <div class="glass-card px-6 py-3 rounded-2xl flex items-center gap-3">
+                <i data-lucide="clock" class="w-5 h-5 text-purple-600"></i>
+                <div>
+                    <div class="text-[10px] uppercase font-bold text-gray-500">Czas obliczeń</div>
+                    <div id="calc-time" class="text-xl font-semibold text-purple-700 leading-none">0.00s</div>
+                </div>
             </div>
+
+            <button id="download-csv-btn" disabled 
+                class="glass-card px-6 py-3 rounded-2xl flex items-center gap-2 transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed">
+                <i data-lucide="download" class="w-5 h-5 text-blue-500"></i>
+                <span class="font-medium text-gray-700">Pobierz wyniki</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="row g-4">
+        <div class="col-lg-4 col-xl-3">
+            {% include 'panel.html' %}
         </div>
 
-        <div class="col-md-9">
-            <div class="card p-3 shadow-sm mb-4">
-                <h5>Postęp ewolucji</h5>
-                <div id="chart"></div>
+        <div class="col-lg-8 col-xl-9 space-y-6">
+            
+            <div class="glass-card p-6 rounded-3xl">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <i data-lucide="line-chart" class="w-5 h-5 text-blue-400"></i>
+                    Wykres przystosowania (fitness)
+                </h2>
+                
+                <div id="chart-placeholder" class="h-[400px] flex flex-col items-center justify-center border-2 border-dashed border-white/40 rounded-2xl text-gray-500">
+                    <i data-lucide="activity" class="w-10 h-10 mb-2 opacity-40"></i>
+                    <p>Uruchom algorytm, aby zobaczyć wykres <3</p>
+                </div>
+                <div id="fitnessPlot" class="w-full hidden"></div>
             </div>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card p-3 shadow-sm">
-                        <h6>Czas obliczeń </h6>
-                        <p id="calc-time">-- s</p>
-                    </div
-                </div>
-                <div class="col-md-6">
-                    <div class="card p-3 shadow-sm">
-                        <h6>Zapisz wyniki</h6>
-                        <button class="btn btn-success" id="save-btn">Pobierz CSV</button>
+            <div id="results-section" class="hidden glass-card p-6 rounded-3xl">
+                <h2 class="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-2">
+                    <i data-lucide="award" class="w-5 h-5 text-yellow-500"></i>
+                    Najlepszy osobnik
+                </h2>
+                
+                <div class="row g-4">
+                    <div class="col-xl-8">
+                        <div class="rounded-2xl overflow-hidden border border-white/30 bg-white/10">
+                            <table class="w-full text-left">
+                                <thead class="bg-white/20">
+                                    <tr>
+                                        <th class="p-3 text-xs font-bold text-gray-600 uppercase">Zmienna</th>
+                                        <th class="p-3 text-xs font-bold text-gray-600 uppercase">Wartość binarna</th>
+                                        <th class="p-3 text-xs font-bold text-gray-600 uppercase text-right">Wartość rzeczywista</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="results-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="col-xl-4 text-center">
+                        <div class="h-full p-6 rounded-2xl flex flex-col items-center justify-center border border-white/50"
+                             style="background: linear-gradient(135deg, rgba(243, 170, 209, 0.2) 0%, rgba(243, 170, 240, 0.2) 100%);">
+                            <div class="text-xs font-bold text-purple-900/50 uppercase tracking-widest mb-1">Final fitness</div>
+                            <div id="final-fitness" class="text-4xl font-black text-purple-800 tracking-tight">0.000000</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -101,8 +95,116 @@
 </div>
 
 <script>
-    // tu potem dopiszę logikę fetch() do app.py
-</script>
+    // Inicjalizacja ikon
+    lucide.createIcons();
 
+    let globalHistory = [];
+
+    // funkcja rysująca wykres Plotly
+    function renderChart(history) {
+        document.getElementById('chart-placeholder').style.display = 'none';
+        const plotDiv = document.getElementById('fitnessPlot');
+        plotDiv.style.display = 'block';
+
+        const traces = [
+            {
+                x: history.map(d => d.epoch),
+                y: history.map(d => d.bestFitness),
+                name: 'Najlepsze',
+                line: { color: '#aad7f3', width: 4, shape: 'spline' }
+            },
+            {
+                x: history.map(d => d.epoch),
+                y: history.map(d => d.averageFitness),
+                name: 'Średnie',
+                line: { color: '#f3aad1', width: 2 }
+            }
+        ];
+
+        const layout = {
+            height: 400,
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            font: { family: 'Poppins', color: '#4b5563' },
+            margin: { t: 10, r: 10, l: 40, b: 40 },
+            xaxis: { gridcolor: 'rgba(255,255,255,0.2)', title: 'Epoka' },
+            yaxis: { gridcolor: 'rgba(255,255,255,0.2)' },
+            legend: { orientation: 'h', x: 0.5, xanchor: 'center', y: -0.2 }
+        };
+
+        Plotly.newPlot('fitnessPlot', traces, layout, {responsive: true, displayModeBar: false});
+    }
+
+    // funkcja budująca wiersze tabeli
+    function renderTable(individual) {
+        const section = document.getElementById('results-section');
+        const body = document.getElementById('results-table-body');
+        const fitnessVal = document.getElementById('final-fitness');
+
+        section.classList.remove('hidden');
+        body.innerHTML = '';
+        fitnessVal.innerText = individual.fitness.toFixed(8);
+
+        individual.variables.forEach((v, idx) => {
+            const row = document.createElement('tr');
+            row.className = "border-b border-white/10 hover:bg-white/10 animate-row";
+            row.style.animationDelay = `${idx * 0.04}s`;
+            row.innerHTML = `
+                <td class="p-3 font-semibold text-gray-700">x<sub>${v.index}</sub></td>
+                <td class="p-3"><code class="bg-blue-500/10 text-blue-700 px-2 py-1 rounded text-[10px] font-mono">${v.binary}</code></td>
+                <td class="p-3 text-right font-mono text-gray-800">${v.real.toFixed(6)}</td>
+            `;
+            body.appendChild(row);
+        });
+    }
+
+    // komunikacja z Flaskiem
+    document.getElementById('configForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const start = performance.now();
+        const btn = e.target.querySelector('button[type="submit"]');
+        btn.disabled = true;
+
+        const formData = new FormData(e.target);
+        const payload = Object.fromEntries(formData.entries());
+        payload.eliteStrategy = formData.has('eliteStrategy');
+        payload.inversion = formData.has('inversion');
+
+        try {
+            const res = await fetch('/run_algorithm', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+
+            globalHistory = data.history;
+            renderChart(data.history);
+            renderTable(data.best_individual);
+            
+            document.getElementById('calc-time').innerText = ((performance.now() - start)/1000).toFixed(2) + 's';
+            document.getElementById('download-csv-btn').disabled = false;
+
+        } catch (err) {
+            console.error("Błąd serwera:", err);
+            alert("Błąd połączenia z algorytmem.");
+        } finally {
+            btn.disabled = false;
+        }
+    });
+
+    // eksport do CSV
+    document.getElementById('download-csv-btn').addEventListener('click', () => {
+        if(globalHistory.length === 0) return;
+        const headers = 'Epoch, Best Fitness, Average Fitness\n';
+        const rows = globalHistory.map(h => `${h.epoch},${h.bestFitness},${h.averageFitness}`).join('\n');
+        const blob = new Blob([headers + rows], {type: 'text/csv'});
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'wyniki.csv';
+        a.click();
+    });
+</script>
 </body>
 </html>
