@@ -1,3 +1,5 @@
+import random
+
 class Individual:
     def __init__(self, genome: list[int], fitness = None):
         if not genome:
@@ -31,27 +33,47 @@ class Individual:
         return f'Individual(genome = {self.genome}, fitness = {self.fitness})'
     
 class Population:
-    def __init__(self, individuals: list[Individual], generation: int):
-        self.individuals = individuals
-        self.generation = generation
+    def __init__(self, population_size: int, individuals: list[Individual] = None):
+        if individuals is None:
+            self.individuals = []
+        else:
+            self.individuals = individuals
+        
+        if population_size <= 0:
+            raise ValueError("Population size must be positive")
+        self.population_size = population_size
 
-    def evaluate(fitness_function):
-        pass
+    def initialize(self, genome_length):
+        self.clear()
 
-    def get_best():
-        pass
+        for _ in range(self.population_size):
+            genome = [random.randint(0, 1) for _ in range(genome_length)]
+            self.add_individual(Individual(genome))
 
-    def get_worst():
-        pass
+    def evaluate(self, fitness_function, bounds, bits_per_variable):
+        for individual in self.individuals:
+            individual.evaluate(fitness_function, bounds, bits_per_variable)
 
-    def sort(descdending=True):
-        pass
+    def get_best_individual(self):
+        return max(self.individuals, key=lambda ind: ind.fitness)
+    
+    def get_worst_individual(self):
+        return min(self.individuals, key=lambda ind: ind.fitness)
 
-    def add(individual: Individual):
-        pass
+    def add_individual(self, individual: Individual):
+        self.individuals.append(individual)
 
-    def extend(individuals: list[Individual]):
-        pass
+    def extend(self, individuals_list: list[Individual]):
+        self.individuals.extend(individuals_list)
 
-    def size(self):
+    def clear(self):
+        self.individuals = []
+
+    def sort(self, descending):
+        self.individuals.sort(key = lambda ind: ind.fitness, reverse = descending)
+
+    def __len__(self):
         return len(self.individuals)
+    
+    def __repr__(self):
+        return f'Population(individuals = {self.individuals}, size = {self.population_size})'
