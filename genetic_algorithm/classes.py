@@ -6,14 +6,20 @@ class Individual:
         self.genome = genome
         self.fitness = fitness
 
-    def decode(self, bounds):
-        decimal_genome = int(''.join(map(str, self.genome)), 2)
-        scaled_decimal_genome = bounds[0] + (decimal_genome / (2**len(self) - 1) * (bounds[1] - bounds[0]))
-        return scaled_decimal_genome
+    def decode(self, bounds, bits_per_variable):
+        decimal_genome = []
 
-    def evaluate(self, fitness_function, bounds):
-        decoded_genome = self.decode(bounds)
-        self.fitness = fitness_function(decoded_genome)
+        genome_splitted_by_variables = [self.genome[i:i + bits_per_variable] for i in range(0, len(self.genome), bits_per_variable)]
+        for i, variable_genome in enumerate(genome_splitted_by_variables):
+            decimal_variable_genome = int(''.join(map(str, variable_genome)), 2)
+            decimal_variable_genome = bounds[i][0] + (decimal_variable_genome / (2**bits_per_variable - 1) * (bounds[i][1] - bounds[i][0]))
+            decimal_genome.append(decimal_variable_genome)
+
+        return decimal_genome
+
+    def evaluate(self, fitness_function, bounds, bits_per_variable):
+        decoded_genome = self.decode(bounds, bits_per_variable)
+        self.fitness = fitness_function(*decoded_genome)
 
     def copy(self):
         return Individual(self.genome.copy(), self.fitness)
