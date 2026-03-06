@@ -101,7 +101,7 @@
 
     let globalHistory = [];
 
-    // funkcja rysująca wykres Plotly
+   // funkcja rysująca wykres Plotly
     function renderChart(history) {
         document.getElementById('chart-placeholder').style.display = 'none';
         const plotDiv = document.getElementById('fitnessPlot');
@@ -109,16 +109,25 @@
 
         const traces = [
             {
+                // najlepsze wyniki
                 x: history.map(d => d.epoch),
                 y: history.map(d => d.bestFitness),
                 name: 'Najlepsze',
-                line: { color: '#aad7f3', width: 4, shape: 'spline' }
+                line: { color: '#74D8F2', width: 4, shape: 'spline' }
             },
             {
+                // średnie wyniki
                 x: history.map(d => d.epoch),
                 y: history.map(d => d.averageFitness),
                 name: 'Średnie',
-                line: { color: '#f3aad1', width: 2 }
+                line: { color: '#FF8CDE', width: 2 }
+            },
+            {
+                // najgorsze wyniki
+                x: history.map(d => d.epoch),
+                y: history.map(d => d.worstFitness), 
+                name: 'Najgorsze',
+                line: { color: '#D489D9', width: 2, dash: 'dot' }
             }
         ];
 
@@ -128,9 +137,20 @@
             plot_bgcolor: 'rgba(0,0,0,0)',
             font: { family: 'Poppins', color: '#4b5563' },
             margin: { t: 10, r: 10, l: 40, b: 40 },
-            xaxis: { gridcolor: 'rgba(255,255,255,0.2)', title: 'Epoka' },
-            yaxis: { gridcolor: 'rgba(255,255,255,0.2)' },
-            legend: { orientation: 'h', x: 0.5, xanchor: 'center', y: -0.2 }
+            xaxis: { 
+                gridcolor: 'rgba(255,255,255,0.2)', 
+                title: 'Epoka' 
+            },
+            yaxis: { 
+                gridcolor: 'rgba(255,255,255,0.2)',
+                title: 'Fitness'
+            },
+            legend: { 
+                orientation: 'h', 
+                x: 0.5, 
+                xanchor: 'center', 
+                y: -0.2 
+            }
         };
 
         Plotly.newPlot('fitnessPlot', traces, layout, {responsive: true, displayModeBar: false});

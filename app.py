@@ -23,7 +23,8 @@ def run_algorithm():
         mock_history.append({
             "epoch": i,
             "bestFitness": 10 / (i + 1), 
-            "averageFitness": 12 / (i + 0.5)
+            "averageFitness": 12 / (i + 0.5),
+            "worstFitness": 16 / (i + 0.4)
         })
 
     # mock najlepszego osobnika dla tabeli
