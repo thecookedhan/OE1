@@ -1,14 +1,14 @@
 import random
 
 class Individual:
-    def __init__(self, genome: list[int], fitness = None):
+    def __init__(self, genome: list[int], fitness: float = None):
         if not genome:
             raise ValueError("Genome cannot be empty")
 
         self.genome = genome
         self.fitness = fitness
 
-    def decode(self, bounds, bits_per_variable):
+    def decode(self, bounds: list[float], bits_per_variable: int) -> float:
         decimal_genome = []
 
         genome_splitted_by_variables = [self.genome[i:i + bits_per_variable] for i in range(0, len(self.genome), bits_per_variable)]
@@ -19,17 +19,17 @@ class Individual:
 
         return decimal_genome
 
-    def evaluate(self, fitness_function, bounds, bits_per_variable):
+    def evaluate(self, fitness_function, bounds: list[float], bits_per_variable: int):
         decoded_genome = self.decode(bounds, bits_per_variable)
         self.fitness = fitness_function(*decoded_genome)
 
-    def copy(self):
+    def copy(self) -> Individual:
         return Individual(self.genome.copy(), self.fitness)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.genome)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'Individual(genome = {self.genome}, fitness = {self.fitness})'
     
 class Population:
@@ -43,21 +43,21 @@ class Population:
             raise ValueError("Population size must be positive")
         self.population_size = population_size
 
-    def initialize(self, genome_length):
+    def initialize(self, genome_length: int):
         self.clear()
 
         for _ in range(self.population_size):
             genome = [random.randint(0, 1) for _ in range(genome_length)]
             self.add_individual(Individual(genome))
 
-    def evaluate(self, fitness_function, bounds, bits_per_variable):
+    def evaluate(self, fitness_function, bounds: list[float], bits_per_variable: int):
         for individual in self.individuals:
             individual.evaluate(fitness_function, bounds, bits_per_variable)
 
-    def get_best_individual(self):
+    def get_best_individual(self) -> Individual:
         return max(self.individuals, key=lambda ind: ind.fitness)
     
-    def get_worst_individual(self):
+    def get_worst_individual(self) -> Individual:
         return min(self.individuals, key=lambda ind: ind.fitness)
 
     def add_individual(self, individual: Individual):
@@ -69,11 +69,11 @@ class Population:
     def clear(self):
         self.individuals = []
 
-    def sort(self, descending):
+    def sort(self, descending: bool):
         self.individuals.sort(key = lambda ind: ind.fitness, reverse = descending)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.individuals)
     
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'Population(individuals = {self.individuals}, size = {self.population_size})'
