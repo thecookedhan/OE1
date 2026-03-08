@@ -27,7 +27,7 @@ def edge_mutation(individual: Individual):
 # === SELECTION ===
 def tournament_selection(population: Population, tournament_size: int = 3) -> Individual:
     tournament_group = random.sample(population.individuals, tournament_size)
-    best_individual = max(tournament_group, key=lambda individual: individual.fitness)
+    best_individual = min(tournament_group, key=lambda individual: individual.fitness)
 
     return best_individual.copy()
 
@@ -69,6 +69,7 @@ def discrete_crossover(parent1: Individual, parent2: Individual) -> Individual:
     for locus in range(0, len(parent1)):
         if random.random() <= 0.5:
             child_genome.append(parent1.genome[locus])
+
         else:
             child_genome.append(parent2.genome[locus])
     
@@ -82,6 +83,7 @@ def uniform_crossover(parent1: Individual, parent2: Individual, crossover_rate: 
         if random.random() < crossover_rate:
             child1_genome.append(parent1.genome[locus])
             child2_genome.append(parent2.genome[locus])
+            
         else:
             child1_genome.append(parent2.genome[locus])
             child2_genome.append(parent1.genome[locus])
