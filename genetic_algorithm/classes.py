@@ -1,4 +1,5 @@
 import random
+import statistics
 
 class Individual:
     def __init__(self, genome: list[int], fitness: float = None): # create new Individual with binary list that represents a solution
@@ -28,9 +29,6 @@ class Individual:
 
     def __len__(self) -> int: # return length of a binary solution list
         return len(self.genome)
-
-    def __repr__(self) -> str: # return ready to print string with individual atributes
-        return f'Individual(genome = {self.genome}, fitness = {self.fitness})'
     
 class Population:
     def __init__(self, population_size: int, individuals: list[Individual] = None): # get input population size or create population when list of individuals is given
@@ -59,12 +57,13 @@ class Population:
     
     def get_worst_individual(self) -> Individual: # return an individual which has the worst solution in a population
         return max(self.individuals, key=lambda ind: ind.fitness)
+    
+    def get_median_individual(self) -> Individual: # return an individual which has an average solution in a population
+        self.sort(descending=False)
+        return self.individuals[len(self.individuals) // 2]
 
     def add_individual(self, individual: Individual): # add a single new individual to a population
         self.individuals.append(individual)
-
-    def extend(self, individuals_list: list[Individual]): # extend population with list of a new individuals
-        self.individuals.extend(individuals_list)
 
     def clear(self): # clear population
         self.individuals = []
@@ -74,6 +73,3 @@ class Population:
 
     def __len__(self) -> int: # return population length, which is simply a number of individuals in a population
         return len(self.individuals)
-    
-    def __repr__(self) -> str: # return ready to print string with population atributes
-        return f'Population(individuals = {self.individuals}, size = {self.population_size})'
