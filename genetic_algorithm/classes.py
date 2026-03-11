@@ -8,10 +8,13 @@ class Individual:
         self.genome = genome
         self.fitness = fitness
 
+    def split_genome_by_variables(self, bits_per_variable: int) -> list[list[int]]:
+        return [self.genome[i:i + bits_per_variable] for i in range(0, len(self.genome), bits_per_variable)]
+
     def decode(self, bounds: list[float], bits_per_variable: int) -> float: # decode biniary solution list into float in a given bounds
         decimal_genome = []
+        genome_splitted_by_variables = self.split_genome_by_variables(bits_per_variable)
 
-        genome_splitted_by_variables = [self.genome[i:i + bits_per_variable] for i in range(0, len(self.genome), bits_per_variable)]
         for i, variable_genome in enumerate(genome_splitted_by_variables):
             decimal_variable_genome = int(''.join(map(str, variable_genome)), 2)
             decimal_variable_genome = bounds[0] + (decimal_variable_genome / (2**bits_per_variable - 1) * (bounds[1] - bounds[0]))

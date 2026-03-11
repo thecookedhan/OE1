@@ -39,6 +39,7 @@ class GeneticAlgorithm:
         self.best_fitness_history = []
         self.worst_fitness_history = []
         self.median_fitness_history = []
+        self.epochs = []
 
     def initialize_population(self): # create initial population with random genomes (binary solution lists)
         genome_length = self.bits_per_variable * self.number_of_variables
@@ -137,13 +138,17 @@ class GeneticAlgorithm:
         self.update_worst_solution()
         self.update_median_solution()
 
-        for _ in range(self.number_of_generations):
+        self.epochs.append(0)
+
+        for generation in range(1, self.number_of_generations + 1):
             self.create_new_population()
             self.evaluate_population()
 
             self.update_best_solution()
             self.update_worst_solution()
             self.update_median_solution()
+
+            self.epochs.append(generation)
 
     def update_best_solution(self): # track and save fitness value of the best individual found so far in the population
         best_in_generation = self.population.get_best_individual()
