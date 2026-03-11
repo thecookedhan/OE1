@@ -1,5 +1,4 @@
 import random
-import statistics
 
 class Individual:
     def __init__(self, genome: list[int], fitness: float = None): # create new Individual with binary list that represents a solution

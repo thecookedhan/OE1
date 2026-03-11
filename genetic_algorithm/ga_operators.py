@@ -42,7 +42,7 @@ def tournament_selection(population: Population, tournament_size: int) -> Indivi
     return best_individual.copy()
 
 def best_selection(population: Population, best_percentage: float) -> Individual: # select a percentage of the best individuals from the population based on fitness
-    population.sort(descending = True)
+    population.sort(descending = False)
     best_individuals_start_index = int(len(population) * best_percentage)
 
     return random.choice(population.individuals[:best_individuals_start_index]).copy()

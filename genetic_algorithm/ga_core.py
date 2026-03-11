@@ -1,12 +1,12 @@
 from classes import Population
 from ga_operators import *
 import random
-import numpy as np
 
 class GeneticAlgorithm:
     def __init__(self, population_size: int, number_of_genertions: int, fitness_function, bounds: list[float], bits_per_variable: int, number_of_variables: int, 
-                 selection_method: str = "tournament", tournament_size: int = 3, mutation_method:str = "bit_flip", mutation_probability: float = 0.2, bit_mutation_rate: float = 0.01, 
-                 max_segment_ratio: float = 0.3, crossover_method: str = "one_point", crossover_probability: float = 0.75, uniform_crossover_rate: float = 0.1, elitism_size: int = 0, best_percentage: float = 0.05): # initialize genetic algorithm parameters, operators and population
+                 selection_method: str = "tournament", tournament_size: int = 3, best_percentage: float = 0.05, mutation_method: str = "bit_flip", 
+                 mutation_probability: float = 0.2, bit_mutation_rate: float = 0.01, max_segment_ratio: float = 0.3, crossover_method: str = "one_point", 
+                 crossover_probability: float = 0.75, uniform_crossover_rate: float = 0.1, elitism_size: int = 0): # initialize genetic algorithm parameters, operators and population
         self.population_size = population_size
         self.number_of_generations = number_of_genertions
 
