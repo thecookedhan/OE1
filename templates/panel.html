@@ -3,93 +3,128 @@
     
     <h2 class="text-xl font-semibold text-gray-700 mb-6 flex items-center gap-2">
         <i data-lucide="sparkles" class="w-5 h-5 text-purple-400"></i>
-        Konfiguracja
+        Konfiguracja Algorytmu
     </h2>
 
     <form id="configForm" class="space-y-5">
-        <div class="space-y-2">
-            <label class="text-sm font-medium text-gray-700">Liczba zmiennych</label>
-            <input type="number" name="numVariables" value="2" min="1"
-                   class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm transition-all focus:border-pink-300 outline-none"
-                   style="background: rgba(255, 255, 255, 0.4)">
-        </div>
-
-        <div class="space-y-2">
-            <label class="text-sm font-medium text-gray-700">Zakres zmiennych</label>
-            <div class="grid grid-cols-2 gap-3">
-                <input type="number" name="rangeFrom" placeholder="Od" value="-10" step="any"
-                       class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-pink-300 outline-none"
+        <div class="grid grid-cols-1 gap-4">
+            <div class="space-y-2">
+                <label class="text-sm font-medium text-gray-700">Liczba zmiennych</label>
+                <input type="number" name="numVariables" value="2" min="1"
+                       class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm transition-all focus:border-pink-300 outline-none"
                        style="background: rgba(255, 255, 255, 0.4)">
-                <input type="number" name="rangeTo" placeholder="Do" value="10" step="any"
+            </div>
+
+            <div class="space-y-2">
+                <label class="text-sm font-medium text-gray-700">Zakres zmiennych</label>
+                <div class="grid grid-cols-2 gap-3">
+                    <input type="number" name="rangeFrom" placeholder="Od" value="0" step="any"
+                           class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-pink-300 outline-none"
+                           style="background: rgba(255, 255, 255, 0.4)">
+                    <input type="number" name="rangeTo" placeholder="Do" value="3.1415" step="any"
+                           class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-pink-300 outline-none"
+                           style="background: rgba(255, 255, 255, 0.4)">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-gray-700">Populacja</label>
+                    <input type="number" name="populationSize" value="100" min="2"
+                           class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-pink-300 outline-none"
+                           style="background: rgba(255, 255, 255, 0.4)">
+                </div>
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-gray-700">Epoki</label>
+                    <input type="number" name="numEpochs" value="50" min="1"
+                           class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-pink-300 outline-none"
+                           style="background: rgba(255, 255, 255, 0.4)">
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <label class="text-sm font-medium text-gray-700">Dokładność (bity)</label>
+                <input type="number" name="precision" value="20" min="1" max="64"
                        class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-pink-300 outline-none"
                        style="background: rgba(255, 255, 255, 0.4)">
             </div>
         </div>
 
-        <div class="space-y-2">
-            <label class="text-sm font-medium text-gray-700">Wielkość populacji</label>
-            <input type="number" name="populationSize" value="100" min="2"
-                   class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-pink-300 outline-none"
-                   style="background: rgba(255, 255, 255, 0.4)">
+        <div class="h-px bg-gradient-to-r from-transparent via-white/50 to-transparent my-4"></div>
+
+        <div class="space-y-3 p-3 rounded-2xl bg-white/20 border border-white/30">
+            <div class="space-y-2">
+                <label class="text-sm font-bold text-gray-600">Metoda Selekcji</label>
+                <select name="selection" id="selection-select"
+                        class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-blue-300 outline-none appearance-none cursor-pointer"
+                        style="background: rgba(255, 255, 255, 0.4)">
+                    <option value="best">Najlepszych</option>
+                    <option value="roulette" selected>Ruletka</option>
+                    <option value="tournament">Turniejowa</option>
+                </select>
+            </div>
+
+            <div id="tournament-params" class="hidden animate-in fade-in slide-in-from-top-1 space-y-1">
+                <label class="text-[11px] font-bold text-blue-600 uppercase tracking-wider ml-1">Rozmiar turnieju</label>
+                <input type="number" name="tournamentSize" value="3" min="2"
+                       class="w-full p-2 rounded-xl border border-blue-200 focus:border-blue-400 outline-none text-sm"
+                       style="background: rgba(235, 245, 255, 0.5)">
+            </div>
+
+            <div id="best-params" class="hidden animate-in fade-in slide-in-from-top-1 space-y-1">
+                <label class="text-[11px] font-bold text-pink-600 uppercase tracking-wider ml-1">Procent najlepszych (0-1)</label>
+                <input type="number" name="bestPercentage" value="0.1" min="0.01" max="1" step="0.01"
+                       class="w-full p-2 rounded-xl border border-pink-200 focus:border-pink-400 outline-none text-sm"
+                       style="background: rgba(255, 240, 245, 0.5)">
+            </div>
         </div>
 
-        <div class="space-y-2">
-            <label class="text-sm font-medium text-gray-700">Liczba epok</label>
-            <input type="number" name="numEpochs" value="50" min="1"
-                   class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-pink-300 outline-none"
-                   style="background: rgba(255, 255, 255, 0.4)">
+        <div class="space-y-3 p-3 rounded-2xl bg-white/20 border border-white/30">
+            <div class="space-y-2">
+                <label class="text-sm font-bold text-gray-600">Krzyżowanie</label>
+                <select name="crossover" 
+                        class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-blue-300 outline-none"
+                        style="background: rgba(255, 255, 255, 0.4)">
+                    <option value="one_point">Jednopunktowe</option>
+                    <option value="two_point">Dwupunktowe</option>
+                    <option value="uniform">Jednorodne</option>
+                    <option value="discrete">Ziarniste</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="text-[11px] font-medium text-gray-500 ml-1">Prawdopodobieństwo (0.0 - 1.0)</label>
+                <input type="number" name="crossoverProb" value="0.8" step="0.05" min="0" max="1"
+                       class="w-full p-1.5 text-sm rounded-lg border border-white/30 outline-none focus:border-blue-200"
+                       style="background: rgba(255, 255, 255, 0.2)">
+            </div>
         </div>
 
-        <div class="space-y-2">
-            <label class="text-sm font-medium text-gray-700">Dokładność (bitowa)</label>
-            <input type="number" name="precision" value="16" min="1" max="64"
-                   class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-pink-300 outline-none"
-                   style="background: rgba(255, 255, 255, 0.4)">
+        <div class="space-y-3 p-3 rounded-2xl bg-white/20 border border-white/30">
+            <div class="space-y-2">
+                <label class="text-sm font-bold text-gray-600">Mutacja</label>
+                <select name="mutation" 
+                        class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-blue-300 outline-none"
+                        style="background: rgba(255, 255, 255, 0.4)">
+                    <option value="bit_flip">Jednopunktowa</option>
+                    <option value="two_bits">Dwupunktowa</option>
+                    <option value="edge">Brzegowa</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="text-[11px] font-medium text-gray-500 ml-1">Prawdopodobieństwo (0.0 - 1.0)</label>
+                <input type="number" name="mutationProb" value="0.05" step="0.01" min="0" max="1"
+                       class="w-full p-1.5 text-sm rounded-lg border border-white/30 outline-none focus:border-blue-200"
+                       style="background: rgba(255, 255, 255, 0.2)">
+            </div>
         </div>
 
         <div class="h-px bg-gradient-to-r from-transparent via-white/50 to-transparent my-4"></div>
 
-        <div class="space-y-2">
-            <label class="text-sm font-medium text-gray-700">Selekcja</label>
-            <select name="selection" 
-                    class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-blue-300 outline-none appearance-none"
-                    style="background: rgba(255, 255, 255, 0.4)">
-                <option value="best">Najlepszych</option>
-                <option value="roulette">Ruletki</option>
-                <option value="tournament">Turniejowa</option>
-            </select>
-        </div>
-
-        <div class="space-y-2">
-            <label class="text-sm font-medium text-gray-700">Krzyżowanie</label>
-            <select name="crossover" 
-                    class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-blue-300 outline-none appearance-none"
-                    style="background: rgba(255, 255, 255, 0.4)">
-                <option value="single-point">Jednopunktowe</option>
-                <option value="two-point">Dwupunktowe</option>
-                <option value="uniform">Jednorodne</option>
-                <option value="granular">Ziarniste</option>
-            </select>
-        </div>
-
-        <div class="space-y-2">
-            <label class="text-sm font-medium text-gray-700">Mutacja</label>
-            <select name="mutation" 
-                    class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-blue-300 outline-none appearance-none"
-                    style="background: rgba(255, 255, 255, 0.4)">
-                <option value="edge">Brzegowa</option>
-                <option value="single-point">Jednopunktowa</option>
-                <option value="two-point">Dwupunktowa</option>
-            </select>
-        </div>
-
-        <div class="h-px bg-gradient-to-r from-transparent via-white/50 to-transparent my-4"></div>
-
-        <div class="space-y-4">
+        <div class="space-y-3">
             <div class="flex items-center justify-between p-3 rounded-xl" style="background: rgba(255, 255, 255, 0.3)">
                 <span class="text-sm text-gray-700">Strategia elitarna</span>
                 <label class="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox" name="eliteStrategy" class="sr-only peer">
+                    <input type="checkbox" name="eliteStrategy" class="sr-only peer" checked>
                     <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-400"></div>
                 </label>
             </div>
@@ -113,7 +148,7 @@
 </div>
 
 <script>
-  // inicjalizacja ikon (biblioteka lucide)
-  lucide.createIcons();
-  
+  if (window.lucide) {
+    lucide.createIcons();
+  }
 </script>

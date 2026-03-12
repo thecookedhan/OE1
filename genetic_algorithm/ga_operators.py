@@ -1,5 +1,5 @@
-from classes import Individual
-from classes import Population
+from .classes import Individual
+from .classes import Population
 import random
 
 # === MUTATION ===

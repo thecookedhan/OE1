@@ -31,3 +31,36 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.4);
     box-shadow: 0 8px 32px 0 rgba(243, 170, 209, 0.15);
 }
+
+/*WYKRES*/
+
+/* Kontener paska narzędzi */
+.js-plotly-plot .plotly .modebar-container {
+    padding: 8px !important;
+    right: 15px !important;
+    top: 15px !important;
+}
+
+/* Tło paska narzędzi */
+.js-plotly-plot .plotly .modebar {
+    background-color: rgba(255, 255, 255, 0.4) !important; /* Półprzezroczyste białe */
+    backdrop-filter: blur(8px); /* Efekt szkła (Glassmorphism) */
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 16px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Kolor i styl ikon */
+.js-plotly-plot .plotly .modebar-btn path {
+    fill: #6b7280 !important; /* Szary pasujący do tekstu */
+}
+
+.js-plotly-plot .plotly .modebar-btn:hover path {
+    fill: #ffbedf !important; /* Różowy przy hoverze */
+}
+
+/* Ukrycie pionowej linii między grupami przycisków */
+.js-plotly-plot .plotly .modebar-group {
+    border-left: none !important;
+    padding-left: 0 !important;
+}

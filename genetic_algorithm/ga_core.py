@@ -1,5 +1,5 @@
-from classes import Population
-from ga_operators import *
+from .classes import Population
+from .ga_operators import *
 import random
 
 class GeneticAlgorithm:

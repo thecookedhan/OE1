@@ -1,3 +1,4 @@
+from __future__ import annotations
 import random
 
 class Individual:
@@ -26,7 +27,7 @@ class Individual:
         decoded_genome = self.decode(bounds, bits_per_variable)
         self.fitness = fitness_function(decoded_genome)
 
-    def copy(self) -> Individual: # create copy of a individual
+    def copy(self) -> Individual: # create copy of an individual
         return Individual(self.genome.copy(), self.fitness)
 
     def __len__(self) -> int: # return length of a binary solution list
