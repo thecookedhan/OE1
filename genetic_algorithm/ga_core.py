@@ -116,7 +116,7 @@ class GeneticAlgorithm:
             for elite in elites:
                 new_population.add_individual(elite.copy())
 
-        while len(new_population) < self.population_size:
+        while len(new_population) < self.population_size - self.elitism_size:
             parent1, parent2 = self.select_parents()
             child1, child2 = self.crossover(parent1, parent2)
 
@@ -125,7 +125,7 @@ class GeneticAlgorithm:
 
             new_population.add_individual(child1)
 
-            if len(new_population) < self.population_size:
+            if len(new_population) < self.population_size - self.elitism_size:
                 new_population.add_individual(child2)
 
         self.population = new_population
