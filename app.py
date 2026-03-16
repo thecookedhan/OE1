@@ -55,20 +55,20 @@ def run_algorithm():
 
         ga = GeneticAlgorithm(
             population_size=pop_size,
-            number_of_genertions=epochs,
+            number_of_generations=epochs,
             fitness_function=michalewicz_function,
             bounds=bounds,
             bits_per_variable=precision,
             number_of_variables=num_vars,
             selection_method=selection,
             crossover_method=crossover,
+            crossover_probability=cross_prob,
             mutation_method=mutation,
+            mutation_probability=mut_prob,
             elitism_size=elitism_size,
             # parametry specyficzne przekazywane jako dodatkowe argumenty
             tournament_size=int(sel_args.get('tournament_size', 3)),
             best_percentage=float(sel_args.get('best_percentage', 0.1)),
-            mutation_probability=mut_prob,
-            crossover_probability=cross_prob,
             bit_mutation_rate=bit_mut_rate,
             uniform_crossover_rate=uni_cross_rate,
             max_segment_ratio=max_seg
@@ -95,7 +95,7 @@ def run_algorithm():
             history_to_front.append({
                 "epoch": i,
                 "bestFitness": ga.best_fitness_history[i],
-                "averageFitness": ga.average_fitness_history[i] if hasattr(ga, 'average_fitness_history') else ga.median_fitness_history[i],
+                "averageFitness": ga.median_fitness_history[i],
                 "worstFitness": ga.worst_fitness_history[i]
             })
 

@@ -3,7 +3,7 @@
     
     <h2 class="text-xl font-semibold text-gray-700 mb-6 flex items-center gap-2">
         <i data-lucide="sparkles" class="w-5 h-5 text-purple-400"></i>
-        Konfiguracja Algorytmu
+        Konfiguracja algorytmu
     </h2>
 
     <form id="configForm" class="space-y-5">
@@ -43,7 +43,7 @@
             </div>
 
             <div class="space-y-2">
-                <label class="text-sm font-medium text-gray-700">Dokładność bitowa jednej zmiennej</label>
+                <label class="text-sm font-medium text-gray-700">Dokładność bitowa dla jednej zmiennej</label>
                 <input type="number" name="precision" value="20" min="1" max="64"
                        class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-pink-300 outline-none"
                        style="background: rgba(255, 255, 255, 0.4)">
@@ -81,7 +81,7 @@
 
         <div class="space-y-3 p-3 rounded-2xl bg-white/20 border border-white/30">
             <div class="space-y-2">
-                <label class="text-sm font-bold text-gray-600">Krzyżowanie</label>
+                <label class="text-sm font-bold text-gray-600">Metoda krzyżowania</label>
                 <select name="crossover" id="crossover-select"
                         class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-blue-300 outline-none"
                         style="background: rgba(255, 255, 255, 0.4)">
@@ -107,7 +107,7 @@
 
         <div class="space-y-3 p-3 rounded-2xl bg-white/20 border border-white/30">
             <div class="space-y-2">
-                <label class="text-sm font-bold text-gray-600">Mutacja</label>
+                <label class="text-sm font-bold text-gray-600">Metoda mutacji</label>
                 <select name="mutation" id="mutation-select"
                         class="w-full p-2 rounded-xl border border-white/50 backdrop-blur-sm focus:border-blue-300 outline-none"
                         style="background: rgba(255, 255, 255, 0.4)">
@@ -117,7 +117,7 @@
                 </select>
             </div>
             <div class="space-y-1">
-                <label class="text-[11px] font-medium text-gray-500 ml-1">Prawdopodobieństwo mutacji (osobnika)</label>
+                <label class="text-[11px] font-medium text-gray-500 ml-1">Prawdopodobieństwo mutacji (ogólne)</label>
                 <input type="number" name="mutationProb" value="0.05" step="0.01" min="0" max="1"
                        class="w-full p-1.5 text-sm rounded-lg border border-white/30 outline-none focus:border-blue-200"
                        style="background: rgba(255, 255, 255, 0.2)">
@@ -159,7 +159,7 @@
                 </div>
 
                 <div id="inversion-params" class="hidden animate-in fade-in slide-in-from-top-1 space-y-1">
-                    <label class="text-[11px] font-bold text-purple-600 uppercase tracking-wider ml-1">Max segment (0-1)</label>
+                    <label class="text-[11px] font-bold text-purple-600 uppercase tracking-wider ml-1">% długości ulegający inwersji (0-1)</label>
                     <input type="number" name="maxSegmentRatio" value="0.2" step="0.05" min="0.05" max="1"
                         class="w-full p-2 rounded-xl border border-purple-200 focus:border-purple-400 outline-none text-sm"
                         style="background: rgba(250, 240, 255, 0.5)">
