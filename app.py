@@ -40,6 +40,7 @@ def run_algorithm():
         epochs = int(main_args.get('number_of_generations', 50))
         precision = int(main_args.get('bits_per_variable', 16))
         elitism_size = int(main_args.get('elitism_size', 0))
+        max_seg = float(main_args.get('max_segment_ratio', 0.2)) 
 
         selection = sel_args.get('selection_method', 'tournament')
         crossover = params.get('crossover_method', 'one_point')
@@ -47,6 +48,10 @@ def run_algorithm():
         
         cross_prob = float(params.get('crossover_probability', 0.8))
         mut_prob = float(mut_args.get('mutation_probability', 0.1))
+
+        bit_mut_rate = float(mut_args.get('bit_mutation_rate', 0.01))
+        uni_cross_rate = float(params.get('uniform_crossover_rate', 0.5))
+
 
         ga = GeneticAlgorithm(
             population_size=pop_size,
@@ -63,7 +68,10 @@ def run_algorithm():
             tournament_size=int(sel_args.get('tournament_size', 3)),
             best_percentage=float(sel_args.get('best_percentage', 0.1)),
             mutation_probability=mut_prob,
-            crossover_probability=cross_prob
+            crossover_probability=cross_prob,
+            bit_mutation_rate=bit_mut_rate,
+            uniform_crossover_rate=uni_cross_rate,
+            max_segment_ratio=max_seg
         )
 
         # uruchomienie ewolucji
